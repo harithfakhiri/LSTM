@@ -1,4 +1,5 @@
 import numpy as np
+<<<<<<< HEAD
 import pandas as pd
 import os
 
@@ -19,3 +20,26 @@ print(path)
 df_1 = pd.read_csv(path)
 print(df_1)
 dates, opens, highs, lows, closes, volumes, market_caps = preprocess(df_1)
+=======
+
+class ActivationFunc:
+    def relu(self, X):
+        return max(0, X)
+
+    def sigmoid(self, X):
+        return float(1/(1+np.exp(-X)))
+
+    def softmax(self, X):
+        return np.exp(X)/np.exp(X).sum(axis=1, keepdims=True)
+
+    def calculate(self, X, func_name):
+        if (func_name.lower() == "relu"):
+            return self.relu(X)
+        elif (func_name.lower() == "sigmoid"):
+            return self.sigmoid(X)
+        elif (func_name.lower() == "softmax"):
+            return self.softmax(X)
+        else:
+            raise Exception("Unrecognize function name")
+
+>>>>>>> 1f96f8c51ad00208361250f7efb08220af65f295
