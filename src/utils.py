@@ -27,12 +27,14 @@ def sigmoid(X):
 def softmax(X):
     return np.exp(X)/np.exp(X).sum(axis=1, keepdims=True)
 
-    # def calculate(X, func_name):
-    #     if (func_name.lower() == "relu"):
-    #         return self.relu(X)
-    #     elif (func_name.lower() == "sigmoid"):
-    #         return self.sigmoid(X)
-    #     elif (func_name.lower() == "softmax"):
-    #         return self.softmax(X)
-    #     else:
-    #         raise Exception("Unrecognize function name")
+def calculate(X, func_name):
+    if (func_name.lower() == "relu"):
+        return relu(X)
+    elif (func_name.lower() == "sigmoid"):
+        return sigmoid(X)
+    elif (func_name.lower() == "softmax"):
+        return softmax(X)
+    elif (func_name.lower() == "linear"):
+        return X
+    else:
+        raise Exception("Unrecognize function name")
