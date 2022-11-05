@@ -17,14 +17,14 @@ class Dense:
         self.output = []
 
     def set_input(self, input):
-        self.input = [input]
-        self.input_size = input.shape
+        self.input = np.array([input])
+        self.input_size = self.input.shape
         print(self.input_size)
     
     def initialize_weight(self):
         # initialize weight after input is defined
         print(f"SHAPE INPUT: {len(self.input)}")
-        self.weight = np.random.rand(len(self.input)).tolist()
+        self.weight = np.random.rand(self.neuron).tolist()
         # self.weight = np.random.random((self.input_size + 1, self.neuron))
     
     def forward(self, input:np.array):
@@ -36,19 +36,21 @@ class Dense:
         result = []
         print("============== DENSE ================")
 
-        print(f"INPUT  DENSE : {self.input}")
-        print(f"WEIGHT DENSE : {self.weight}")
+        # print(f"INPUT  DENSE : {self.input}")
+        # print(f"WEIGHT DENSE : {self.weight}")
 
-        for i in range(len(self.input[0])):
-            print(f"RESHAPED WEIGHT: {np.array(self.weight).reshape((1,np.array(self.weight).shape[0]))}")
-            print(f"RESHAPED INPUT: {np.array(self.input[0][i]).reshape(-1,1)}")
-            dot_product = np.dot(np.array(self.weight).reshape((1,np.array(self.weight).shape[0])), np.array(self.input[0][i]).reshape(-1,1))
+        for i in range(0, len(self.input[0])):
+            # print(f"RESHAPED WEIGHT: {np.array(self.weight).reshape((1,np.array(self.weight).shape[0]))}")
+            # print(f"RESHAPED INPUT: {np.array(self.input[0][i]).reshape(-1,1)}")
+            dot_product = np.dot(np.array(self.weight).reshape((1,np.array(self.weight).shape[0])).T, np.array(self.input[0][i]).reshape(-1,1))
+            result.append(dot_product)
 
-            result.append([calculate(dot_product, self.activation)])
-
-        self.output = result
+        self.output = calculate(dot_product.flatten(), self.activation)
 
         print(f"OUTPUT DENSE : {self.output}")
         print("--------------------------------------")
 
-        return result
+        return self.output
+    
+    def type_(self, id):
+        return 'dense'+str(id)+' (Dense)'

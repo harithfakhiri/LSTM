@@ -15,19 +15,27 @@ df_1 = pd.read_csv(path)
 # print(df_1)
 opens, highs, lows, closes, volumes = preprocess(df_1)
 # print(opens)
-print(opens)
 
-scaler = MinMaxScaler(feature_range = (0, 1)) # scale the data
+def main(fitur_arr, fiturname):
+    scaler = MinMaxScaler(feature_range = (0, 1)) # scale the data
 
-open_scaled = scaler.fit_transform(np.array(opens).reshape(-1,1))
+    input_fitur_scaled = scaler.fit_transform(np.array(fitur_arr).reshape(-1,1))
 
+    # neuron == num_cell
+    lstm = LSTM(input_size = 7, num_cell = 5, return_sequence=False)
+    flatten = Flatten()
+    dense = Dense(neuron = 5, activation="softmax")
+    dense2 = Dense(neuron=1, activation="sigmoid")
 
-lstm = LSTM(input_size = 32, num_cell = 5)
-flatten = Flatten()
-dense = Dense(neuron=10, activation="sigmoid")
+    sequential = Sequential(LSTM=[lstm], Flatten=flatten, Dense=[dense, dense2])
+    predicted_from_training = np.array([sequential.train(input_fitur_scaled, fiturname)]).reshape(1,-1)
 
-sequential = Sequential(LSTM=lstm, Flatten=flatten, Dense=[dense])
-predicted_open = sequential.predict(open_scaled, "Opens")
+    rescaledrescaled_prediction_train = scaler.inverse_transform(predicted_from_training)
 
-rescaled_open = scaler.inverse_transform(predicted_open)
-print("rescaled open", rescaled_open)
+    predictNext30 = np.array(sequential.predict(input_fitur_scaled, fiturname, 30)).reshape(1,-1)
+    final_30_prediction = scaler.inverse_transform(predictNext30)
+    print("rescaled open", rescaledrescaled_prediction_train)
+    # print("this is for the next 30 days", predictNext30)
+    print("next 30 days", final_30_prediction)
+
+main(opens, "open")

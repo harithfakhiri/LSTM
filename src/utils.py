@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scipy.special import expit
 
 def preprocess(df):
     # dates = np.flip(df['Date'].to_numpy())
@@ -25,7 +26,7 @@ def sigmoid(X):
     return float(1/(1+np.exp(-X)))
 
 def softmax(X):
-    return np.exp(X)/np.exp(X).sum(axis=1, keepdims=True)
+    return lambda x: np.exp(x - np.max(X)) / np.sum(np.exp(x - np.max(X)))
 
 def calculate(X, func_name):
     if (func_name.lower() == "relu"):
@@ -33,7 +34,7 @@ def calculate(X, func_name):
     elif (func_name.lower() == "sigmoid"):
         return sigmoid(X)
     elif (func_name.lower() == "softmax"):
-        return softmax(X)
+        return expit(X) / np.sum(expit(X), axis=0)
     elif (func_name.lower() == "linear"):
         return X
     else:
