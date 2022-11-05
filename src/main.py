@@ -36,7 +36,7 @@ def main(fitur_arr, fiturname):
     final_30_prediction = scaler.inverse_transform(predictNext30)
     # print("rescaled open", rescaledrescaled_prediction_train)
     # print("this is for the next 30 days", predictNext30)
-    print("predict for the next 51 days in test csv")
+    print(f"predict {fiturname} for the next 51 days in test csv")
     for i in range(len(final_30_prediction[0])):
         print("day", i+1, ":", final_30_prediction[0][i])
 

@@ -41,7 +41,7 @@ class Sequential:
 
             self.predicted.append(curr_out_dense)
         
-        print(f"PREDICTED TEST {columnName}: \n{self.predicted}")
+        # print(f"PREDICTED TEST {columnName}: \n{self.predicted}")
 
         return self.predicted
     
