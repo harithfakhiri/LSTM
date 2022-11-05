@@ -2,9 +2,11 @@ from utils import preprocess
 from Layers.LSTM import LSTM
 from Layers.Dense import Dense
 from Layers.Flatten import Flatten
+from sequential import Sequential
 import os
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import MinMaxScaler # only for normalize the data
 
 directory = os.path.dirname(os.path.abspath(__file__))
 path = os.path.join(directory, "../dataset", "ETH-USD-Train.csv")
@@ -13,16 +15,19 @@ df_1 = pd.read_csv(path)
 # print(df_1)
 opens, highs, lows, closes, volumes = preprocess(df_1)
 # print(opens)
+print(opens)
+
+scaler = MinMaxScaler(feature_range = (0, 1)) # scale the data
+
+open_scaled = scaler.fit_transform(np.array(opens).reshape(-1,1))
 
 
-layer1 = LSTM(input_size = 32, num_cell = 5)
-layer2 = Flatten()
-layer3 = Dense(neuron=10, activation="sigmoid")
+lstm = LSTM(input_size = 32, num_cell = 5)
+flatten = Flatten()
+dense = Dense(neuron=10, activation="sigmoid")
 
-pred1 = layer1.predict(opens)
-pred1_flatten = layer2.forward(pred1)
-layer3.set_input(pred1_flatten)
-layer3.initialize_weight()
-output = layer3.forward(pred1_flatten)
+sequential = Sequential(LSTM=lstm, Flatten=flatten, Dense=[dense])
+predicted_open = sequential.predict(open_scaled, "Opens")
 
-print(f"PREDICTED OPENS: {output}")
+rescaled_open = scaler.inverse_transform(predicted_open)
+print("rescaled open", rescaled_open)

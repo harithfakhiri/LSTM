@@ -3,11 +3,11 @@ import pandas as pd
 
 def preprocess(df):
     # dates = np.flip(df['Date'].to_numpy())
-    opens = np.flip(df['Open'].to_numpy())
-    highs = np.flip(df['High'].to_numpy())
-    lows = np.flip(df['Low'].to_numpy())
-    closes = np.flip(df['Close'].to_numpy())
-    volumes = np.flip(df['Volume'].to_numpy())
+    opens = np.array(df['Open'].to_numpy())
+    highs = np.array(df['High'].to_numpy())
+    lows = np.array(df['Low'].to_numpy())
+    closes = np.array(df['Close'].to_numpy())
+    volumes = np.array(df['Volume'].to_numpy())
 
     return opens, highs, lows, closes, volumes
 

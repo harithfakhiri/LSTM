@@ -10,22 +10,24 @@ class LSTM:
 
         self.recurrent_weight = {}
         # 
-        self.recurrent_weight["uf"] = np.random.rand(self.input_size)
-        self.recurrent_weight["ui"] = np.random.rand(1, self.input_size)
-        self.recurrent_weight["uc"] = np.random.rand(1, self.input_size)
-        self.recurrent_weight["uo"] = np.random.rand(1, self.input_size)
+        self.recurrent_weight["uf"] = np.random.uniform(-1, 1, (1, self.input_size))
+        self.recurrent_weight["ui"] = np.random.uniform(-1, 1, (1, self.input_size))
+        self.recurrent_weight["uc"] = np.random.uniform(-1, 1, (1, self.input_size))
+        self.recurrent_weight["uo"] = np.random.uniform(-1, 1, (1, self.input_size))
 
         self.weight = {}
-        self.weight["wf"] = np.random.rand(1, 1)
-        self.weight["wi"] = np.random.rand(1, 1)
-        self.weight["wc"] = np.random.rand(1, 1)
-        self.weight["wo"] = np.random.rand(1, 1)
+        self.weight["wf"] = np.random.uniform(-1, 1, (1, 1))
+        self.weight["wi"] = np.random.uniform(-1, 1, (1, 1))
+        self.weight["wc"] = np.random.uniform(-1, 1, (1, 1))
+        self.weight["wo"] =  np.random.uniform(-1, 1, (1, 1))
 
         self.bias = {}
-        self.bias["f"] = np.zeros(1)
-        self.bias["i"] = np.zeros(1)
-        self.bias["c"] = np.zeros(1)
-        self.bias["o"] = np.zeros(1)
+        self.bias["f"] = np.random.uniform(-1, 1, (1, 1))
+        self.bias["i"] = np.random.uniform(-1, 1, (1, 1))
+        self.bias["c"] = np.random.uniform(-1, 1, (1, 1))
+        self.bias["o"] = np.random.uniform(-1, 1, (1, 1))
+
+        print(f"BIAS: {self.bias['f']}, {self.bias['i']}, {self.bias['c']}, {self.bias['o']}")
 
         self.previous_c = np.zeros((1, 1), dtype=int)
         self.previous_h = np.zeros((1, 1), dtype=int)
@@ -34,6 +36,7 @@ class LSTM:
 
         self.result = {}
         self.x = [[]]
+        self.output = []
     
     def forgetGate(self, t):
         u_x = np.dot(self.recurrent_weight["uf"], self.x)
@@ -86,13 +89,15 @@ class LSTM:
         
     def predict(self, input):
         print("================================ LSTM ================================")
+        # for t in range(0, len(input) - self.input_size):
         for t in range(0, self.num_cell):
             print(F"TIMESTEP {t+1}")
-            self.x = input[t:t+self.input_size]
+            self.x = input[t: t+self.input_size]
 
             print(F"INPUT {t+1}       : \n{self.x}\n")
 
             curr_output = self.forward(t)
+            self.output.append(np.asarray(curr_output))
 
             print(f"FORGET GATE  {t+1} : {self.result['f'+str(t)]}")
             print(f"INPUT GATE   {t+1} : {self.result['i'+str(t)]}")
@@ -103,4 +108,4 @@ class LSTM:
             print("-----------------------------------------------------------------------")
         
 
-        return curr_output
+        return np.array(self.output)
