@@ -22,7 +22,7 @@ def main(fitur_arr, fiturname):
     input_fitur_scaled = scaler.fit_transform(np.array(fitur_arr).reshape(-1,1))
 
     # neuron == num_cell
-    lstm = LSTM(input_size = 7, num_cell = 5, return_sequence=False)
+    lstm = LSTM(input_size = 32, num_cell = 3, return_sequence=False)
     flatten = Flatten()
     dense = Dense(neuron = 5, activation="softmax")
     dense2 = Dense(neuron=1, activation="sigmoid")
@@ -32,10 +32,12 @@ def main(fitur_arr, fiturname):
 
     rescaledrescaled_prediction_train = scaler.inverse_transform(predicted_from_training)
 
-    predictNext30 = np.array(sequential.predict(input_fitur_scaled, fiturname, 30)).reshape(1,-1)
+    predictNext30 = np.array(sequential.predict(input_fitur_scaled, fiturname, 51)).reshape(1,-1)
     final_30_prediction = scaler.inverse_transform(predictNext30)
-    print("rescaled open", rescaledrescaled_prediction_train)
+    # print("rescaled open", rescaledrescaled_prediction_train)
     # print("this is for the next 30 days", predictNext30)
-    print("next 30 days", final_30_prediction)
+    print("predict for the next 51 days in test csv")
+    for i in range(len(final_30_prediction[0])):
+        print("day", i+1, ":", final_30_prediction[0][i])
 
 main(opens, "open")

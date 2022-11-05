@@ -140,6 +140,16 @@ class LSTM:
         else:
             curr_output = self.forward(t)
             output.append(curr_output)
+        print("================================ LSTM ================================")
+        print(F"TIMESTEP {t+1}")
+        print(F"INPUT {t+1}       : \n{self.x}\n")
+        print(f"FORGET GATE  {t+1} : {self.result['f'+str(t)]}")
+        print(f"INPUT GATE   {t+1} : {self.result['i'+str(t)]}")
+        print(f"CANDIDATE    {t+1} : {self.result['candidate'+str(t)]}")
+        print(f"CELL GATE    {t+1} : {self.result['c'+str(t)]}")
+        print(f"OUTPUT GATE  {t+1} : {self.result['o'+str(t)]}")
+        print(f"HIDDEN STATE {t+1} : {curr_output}")
+        print("-----------------------------------------------------------------------")
 
         self.is_sequence = is_sequence
         return output
