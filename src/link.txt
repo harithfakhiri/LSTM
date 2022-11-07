@@ -1,0 +1,5 @@
+google collab : https://colab.research.google.com/drive/1SAmdMPjo6lVby_xSwhH78Dvh_xlbaIwl?authuser=2#scrollTo=66JcljKQ1dc_
+
+link github : https://github.com/harithfakhiri/LSTM.git
+
+link video : bit.ly/RNN-Harith-Aisha-Par

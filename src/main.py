@@ -40,4 +40,4 @@ def main(fitur_arr, fiturname):
     for i in range(len(final_30_prediction[0])):
         print("day", i+1, ":", final_30_prediction[0][i])
 
-main(opens, "open")
+main(closes, "close")
